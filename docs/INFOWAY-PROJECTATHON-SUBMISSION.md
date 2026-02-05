@@ -14,11 +14,11 @@
 
 | Endpoint | URL |
 |----------|-----|
-| **Base URL** | `https://arkpass-fhir-projectathon.vercel.app` |
-| **FHIR Base** | `https://arkpass-fhir-projectathon.vercel.app/fhir` |
-| **CapabilityStatement** | `https://arkpass-fhir-projectathon.vercel.app/fhir/metadata` |
-| **Token Endpoint** | `https://arkpass-fhir-projectathon.vercel.app/auth/token` |
-| **SMART Configuration** | `https://arkpass-fhir-projectathon.vercel.app/auth/.well-known/smart-configuration` |
+| **Base URL** | `https://gazelle-projectathon-fhir.vercel.app` |
+| **FHIR Base** | `https://gazelle-projectathon-fhir.vercel.app/fhir` |
+| **CapabilityStatement** | `https://gazelle-projectathon-fhir.vercel.app/fhir/metadata` |
+| **Token Endpoint** | `https://gazelle-projectathon-fhir.vercel.app/auth/token` |
+| **SMART Configuration** | `https://gazelle-projectathon-fhir.vercel.app/auth/.well-known/smart-configuration` |
 
 ---
 
@@ -37,7 +37,7 @@ Client Secret: projectathon-test-secret
 ### Getting an Access Token
 
 ```bash
-curl -X POST https://arkpass-fhir-projectathon.vercel.app/auth/token \
+curl -X POST https://gazelle-projectathon-fhir.vercel.app/auth/token \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "grant_type=client_credentials" \
   -d "client_id=projectathon-test-client" \
@@ -60,7 +60,7 @@ Include the token in the `Authorization` header:
 
 ```bash
 curl -H "Authorization: Bearer <access_token>" \
-  https://arkpass-fhir-projectathon.vercel.app/fhir/Patient
+  https://gazelle-projectathon-fhir.vercel.app/fhir/Patient
 ```
 
 ---
@@ -123,42 +123,42 @@ The system includes 5 synthetic Canadian patients for testing:
 ### 1. Get CapabilityStatement (No Auth Required)
 
 ```bash
-curl https://arkpass-fhir-projectathon.vercel.app/fhir/metadata
+curl https://gazelle-projectathon-fhir.vercel.app/fhir/metadata
 ```
 
 ### 2. Search All Patients
 
 ```bash
 curl -H "Authorization: Bearer <token>" \
-  "https://arkpass-fhir-projectathon.vercel.app/fhir/Patient"
+  "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient"
 ```
 
 ### 3. Search by Name
 
 ```bash
 curl -H "Authorization: Bearer <token>" \
-  "https://arkpass-fhir-projectathon.vercel.app/fhir/Patient?name=Singh"
+  "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient?name=Singh"
 ```
 
 ### 4. Search by Province
 
 ```bash
 curl -H "Authorization: Bearer <token>" \
-  "https://arkpass-fhir-projectathon.vercel.app/fhir/Patient?address-state=ON"
+  "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient?address-state=ON"
 ```
 
 ### 5. Search by Birth Date
 
 ```bash
 curl -H "Authorization: Bearer <token>" \
-  "https://arkpass-fhir-projectathon.vercel.app/fhir/Patient?birthdate=1985-03-15"
+  "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient?birthdate=1985-03-15"
 ```
 
 ### 6. Read Single Patient
 
 ```bash
 curl -H "Authorization: Bearer <token>" \
-  "https://arkpass-fhir-projectathon.vercel.app/fhir/Patient/test-patient-001"
+  "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient/test-patient-001"
 ```
 
 ### 7. Create Patient
@@ -173,7 +173,7 @@ curl -X POST \
     "gender": "male",
     "birthDate": "2000-01-01"
   }' \
-  "https://arkpass-fhir-projectathon.vercel.app/fhir/Patient"
+  "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient"
 ```
 
 ---
@@ -190,12 +190,12 @@ curl -X POST \
   "link": [
     {
       "relation": "self",
-      "url": "https://arkpass-fhir-projectathon.vercel.app/fhir/Patient"
+      "url": "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient"
     }
   ],
   "entry": [
     {
-      "fullUrl": "https://arkpass-fhir-projectathon.vercel.app/fhir/Patient/test-patient-001",
+      "fullUrl": "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient/test-patient-001",
       "resource": {
         "resourceType": "Patient",
         "id": "test-patient-001",

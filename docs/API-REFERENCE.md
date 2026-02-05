@@ -1,6 +1,6 @@
 # ArkPass FHIR Server - API Reference
 
-**Base URL:** `https://arkpass-fhir-projectathon.vercel.app`
+**Base URL:** `https://gazelle-projectathon-fhir.vercel.app`
 
 ---
 
@@ -103,8 +103,8 @@ SMART on FHIR discovery endpoint.
 **Response:**
 ```json
 {
-  "issuer": "https://arkpass-fhir-projectathon.vercel.app",
-  "token_endpoint": "https://arkpass-fhir-projectathon.vercel.app/auth/token",
+  "issuer": "https://gazelle-projectathon-fhir.vercel.app",
+  "token_endpoint": "https://gazelle-projectathon-fhir.vercel.app/auth/token",
   "token_endpoint_auth_methods_supported": ["client_secret_basic", "client_secret_post"],
   "grant_types_supported": ["client_credentials"],
   "scopes_supported": ["patient/*.read", "patient/Patient.read", "system/*.read"]
@@ -190,10 +190,10 @@ Authorization: Bearer eyJ...
   "total": 2,
   "link": [{
     "relation": "self",
-    "url": "https://arkpass-fhir-projectathon.vercel.app/fhir/Patient?address-state=ON&_count=10"
+    "url": "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient?address-state=ON&_count=10"
   }],
   "entry": [{
-    "fullUrl": "https://arkpass-fhir-projectathon.vercel.app/fhir/Patient/test-patient-001",
+    "fullUrl": "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient/test-patient-001",
     "resource": {
       "resourceType": "Patient",
       "id": "test-patient-001",
@@ -406,7 +406,7 @@ Authorization: Bearer eyJ...
   "type": "searchset",
   "total": 1,
   "entry": [{
-    "fullUrl": "https://arkpass-fhir-projectathon.vercel.app/fhir/Patient/test-patient-001",
+    "fullUrl": "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient/test-patient-001",
     "resource": {
       "resourceType": "Patient",
       "id": "test-patient-001"

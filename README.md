@@ -2,7 +2,7 @@
 
 A minimal FHIR R4 Data Recipient implementation for the Infoway Projectathon.
 
-**Live URL:** https://arkpass-fhir-projectathon.vercel.app
+**Live URL:** https://gazelle-projectathon-fhir.vercel.app
 
 ## Documentation
 
