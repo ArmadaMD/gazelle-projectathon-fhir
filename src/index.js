@@ -38,7 +38,11 @@ app.get('/health', (req, res) => {
     status: 'healthy',
     timestamp: new Date().toISOString(),
     service: 'ArkPass FHIR Server',
-    version: '1.0.1'
+    version: '1.0.2',
+    // Deployment fingerprint for drift detection
+    git_commit_sha: process.env.VERCEL_GIT_COMMIT_SHA || null,
+    vercel_url: process.env.VERCEL_URL || null,
+    environment: process.env.VERCEL_ENV || process.env.NODE_ENV || 'development'
   });
 });
 

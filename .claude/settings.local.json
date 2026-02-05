@@ -20,7 +20,16 @@
       "Bash(git remote:*)",
       "Bash(git fetch:*)",
       "WebFetch(domain:gazelle-projectathon-fhir.vercel.app)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(BASE=\"https://gazelle-projectathon-fhir.vercel.app\")",
+      "Bash(FHIR=\"$BASE/fhir\")",
+      "Bash(META=\"$FHIR/metadata\")",
+      "Bash(SMART=\"$BASE/.well-known/smart-configuration\")",
+      "Bash(HEALTH=\"$BASE/health\")",
+      "Bash(__NEW_LINE_ab26f2f5006f2b41__ echo \"== 1. /fhir returns 302 ==\")",
+      "Bash(META=\"https://gazelle-projectathon-fhir.vercel.app/fhir/metadata\")",
+      "Bash(SMART=\"https://gazelle-projectathon-fhir.vercel.app/.well-known/smart-configuration\")",
+      "Bash(HEALTH=\"https://gazelle-projectathon-fhir.vercel.app/health\")"
     ]
   }
 }
