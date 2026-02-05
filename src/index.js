@@ -45,6 +45,9 @@ app.get('/health', (req, res) => {
 // OAuth 2.0 endpoints
 app.use('/auth', authRouter);
 
+// Make base FHIR URL behave nicely: /fhir -> /fhir/metadata
+app.get('/fhir', (req, res) => res.redirect(302, '/fhir/metadata'));
+
 // FHIR R4 endpoints
 app.use('/fhir', fhirRouter);
 

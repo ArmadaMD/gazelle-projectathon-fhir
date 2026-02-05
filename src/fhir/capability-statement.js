@@ -113,18 +113,6 @@ export function getCapabilityStatement(req) {
               {
                 code: 'search-type',
                 documentation: 'Search for Patient resources'
-              },
-              {
-                code: 'create',
-                documentation: 'Create a new Patient resource'
-              },
-              {
-                code: 'update',
-                documentation: 'Update an existing Patient resource'
-              },
-              {
-                code: 'delete',
-                documentation: 'Delete a Patient resource'
               }
             ],
             versioning: 'versioned',
@@ -203,13 +191,7 @@ export function getCapabilityStatement(req) {
                 documentation: 'Postal/ZIP code'
               }
             ],
-            operation: [
-              {
-                name: 'everything',
-                definition: 'http://hl7.org/fhir/OperationDefinition/Patient-everything',
-                documentation: 'Return all resources related to a patient'
-              }
-            ]
+            operation: []
           }
         ],
         interaction: [
