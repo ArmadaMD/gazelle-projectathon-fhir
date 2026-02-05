@@ -7,8 +7,9 @@ export function getCapabilityStatement(req) {
   // Behind Vercel/other proxies, req.protocol may be "http" even when public URL is https.
   const forwardedProto = req.get('x-forwarded-proto');
   const proto = forwardedProto ? forwardedProto.split(',')[0].trim() : req.protocol;
-  const host = req.get('host');
-  const baseUrl = process.env.FHIR_BASE_URL || `${proto}://${host}/fhir`;
+  const host = (req.get('host') || '').trim();
+  const envBaseUrl = process.env.FHIR_BASE_URL ? process.env.FHIR_BASE_URL.trim() : null;
+  const baseUrl = envBaseUrl || `${proto}://${host}/fhir`;
 
   const serverName = process.env.FHIR_SERVER_NAME || 'ArkPass FHIR Server';
   const serverVersion = process.env.FHIR_SERVER_VERSION || '1.0.0';

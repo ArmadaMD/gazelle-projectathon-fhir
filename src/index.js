@@ -46,7 +46,7 @@ app.get('/health', (req, res) => {
 app.get('/.well-known/smart-configuration', (req, res) => {
   const forwardedProto = req.get('x-forwarded-proto');
   const proto = forwardedProto ? forwardedProto.split(',')[0].trim() : req.protocol;
-  const host = req.get('host');
+  const host = (req.get('host') || '').trim();
   const baseUrl = `${proto}://${host}`;
 
   res.json({
