@@ -2,7 +2,28 @@
 
 A minimal FHIR R4 Data Recipient implementation for the Infoway Projectathon.
 
-**Live URL:** https://gazelle-projectathon-fhir.vercel.app
+## 🚀 Production URLs
+
+| Endpoint | URL |
+|----------|-----|
+| **Production** | https://gazelle-projectathon-fhir.vercel.app |
+| **FHIR Base URL** | https://gazelle-projectathon-fhir.vercel.app/fhir |
+| **CapabilityStatement** | https://gazelle-projectathon-fhir.vercel.app/fhir/metadata |
+| **SMART Config** | https://gazelle-projectathon-fhir.vercel.app/.well-known/smart-configuration |
+| **Token Endpoint** | https://gazelle-projectathon-fhir.vercel.app/auth/token |
+| **Health Check** | https://gazelle-projectathon-fhir.vercel.app/health |
+
+## 📋 For Align Registration
+
+**CapabilityStatement URL:**
+```
+https://gazelle-projectathon-fhir.vercel.app/fhir/metadata
+```
+
+**Base FHIR endpoint:**
+```
+https://gazelle-projectathon-fhir.vercel.app/fhir
+```
 
 ## Documentation
 
@@ -32,9 +53,8 @@ Server runs at `http://localhost:3000`
 | `/fhir/metadata` | GET | No | CapabilityStatement |
 | `/fhir/Patient` | GET | Yes | Search patients |
 | `/fhir/Patient/:id` | GET | Yes | Read patient |
-| `/fhir/Patient` | POST | Yes | Create patient |
-| `/fhir/Patient/:id` | PUT | Yes | Update patient |
 | `/auth/token` | POST | No | Get access token |
+| `/.well-known/smart-configuration` | GET | No | SMART discovery |
 | `/health` | GET | No | Health check |
 
 ## Authentication
@@ -42,7 +62,7 @@ Server runs at `http://localhost:3000`
 Get an access token:
 
 ```bash
-curl -X POST http://localhost:3000/auth/token \
+curl -X POST https://gazelle-projectathon-fhir.vercel.app/auth/token \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "grant_type=client_credentials" \
   -d "client_id=projectathon-test-client" \
@@ -61,7 +81,7 @@ Response:
 
 Use the token:
 ```bash
-curl http://localhost:3000/fhir/Patient \
+curl https://gazelle-projectathon-fhir.vercel.app/fhir/Patient \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIs..."
 ```
 
@@ -82,79 +102,28 @@ The server comes pre-loaded with 5 test patients:
 ```bash
 # Get all patients
 curl -H "Authorization: Bearer $TOKEN" \
-  "http://localhost:3000/fhir/Patient"
+  "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient"
 
 # Search by name
 curl -H "Authorization: Bearer $TOKEN" \
-  "http://localhost:3000/fhir/Patient?name=Singh"
+  "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient?name=Singh"
 
 # Search by city
 curl -H "Authorization: Bearer $TOKEN" \
-  "http://localhost:3000/fhir/Patient?address-city=Toronto"
+  "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient?address-city=Toronto"
 
 # Search by birthdate
 curl -H "Authorization: Bearer $TOKEN" \
-  "http://localhost:3000/fhir/Patient?birthdate=1985-03-15"
+  "https://gazelle-projectathon-fhir.vercel.app/fhir/Patient?birthdate=1985-03-15"
 ```
 
-## Configuration
+## CapabilityStatement Summary
 
-Copy `.env.example` to `.env` and configure:
+This server advertises:
+- **Patient.read** - Read a Patient resource by ID
+- **Patient.search-type** - Search for Patient resources
 
-```env
-# Server
-PORT=3000
-NODE_ENV=development
-
-# JWT (change in production!)
-JWT_SECRET=your-secure-random-secret-min-32-chars
-
-# OAuth credentials for Projectathon testers
-OAUTH_CLIENT_ID=projectathon-test-client
-OAUTH_CLIENT_SECRET=your-secure-client-secret
-
-# Optional: Supabase for persistent storage
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_ANON_KEY=your-anon-key
-```
-
-## Deployment
-
-### Fly.io (Recommended)
-
-```bash
-# Install Fly CLI
-curl -L https://fly.io/install.sh | sh
-
-# Login and deploy
-fly auth login
-fly launch
-fly secrets set JWT_SECRET="your-production-secret"
-fly secrets set OAUTH_CLIENT_SECRET="your-production-secret"
-fly deploy
-```
-
-Your server will be at: `https://arkpass-fhir-projectathon.fly.dev`
-
-### Docker
-
-```bash
-docker build -t arkpass-fhir .
-docker run -p 3000:3000 -e JWT_SECRET=secret arkpass-fhir
-```
-
-## Projectathon Submission
-
-After deploying, provide Infoway with:
-
-1. **System URL**: `https://your-domain.fly.dev/fhir`
-2. **CapabilityStatement**: `https://your-domain.fly.dev/fhir/metadata`
-3. **Actor**: Data Recipient
-4. **Profiles**: Patient (CA Baseline)
-5. **Test Credentials**:
-   - Token endpoint: `https://your-domain.fly.dev/auth/token`
-   - Client ID: `projectathon-test-client`
-   - Client Secret: (provide separately)
+**No write operations (create/update/delete) are advertised.**
 
 ## FHIR Compliance
 
@@ -163,3 +132,11 @@ After deploying, provide Infoway with:
 - OAuth 2.0 client_credentials flow
 - Proper OperationOutcome for errors
 - Search parameters per spec
+
+## Deployment
+
+Deployed on Vercel. Auto-deploys on push to `main`.
+
+**Vercel Dashboard:** https://vercel.com/armada-vercel/gazelle-projectathon-fhir
+
+**GitHub Repo:** https://github.com/ArmadaMD/gazelle-projectathon-fhir
