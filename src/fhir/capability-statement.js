@@ -4,7 +4,12 @@
  */
 
 export function getCapabilityStatement(req) {
-  const baseUrl = process.env.FHIR_BASE_URL || `${req.protocol}://${req.get('host')}/fhir`;
+  // Behind Vercel/other proxies, req.protocol may be "http" even when public URL is https.
+  const forwardedProto = req.get('x-forwarded-proto');
+  const proto = forwardedProto ? forwardedProto.split(',')[0].trim() : req.protocol;
+  const host = req.get('host');
+  const baseUrl = process.env.FHIR_BASE_URL || `${proto}://${host}/fhir`;
+
   const serverName = process.env.FHIR_SERVER_NAME || 'ArkPass FHIR Server';
   const serverVersion = process.env.FHIR_SERVER_VERSION || '1.0.0';
 
@@ -53,7 +58,9 @@ export function getCapabilityStatement(req) {
       url: baseUrl
     },
     fhirVersion: '4.0.1',
-    format: ['json', 'application/fhir+json'],
+    // Per FHIR R4, `format` is a code list: json | xml | ttl, etc.
+    // MIME types belong in HTTP headers, not CapabilityStatement.format.
+    format: ['json'],
     // IHE profiles we implement
     implementationGuide: [
       'http://hl7.org/fhir/uv/ipa/ImplementationGuide/hl7.fhir.uv.ipa', // International Patient Access
@@ -85,10 +92,6 @@ export function getCapabilityStatement(req) {
                 {
                   url: 'token',
                   valueUri: `${baseUrl.replace('/fhir', '')}/auth/token`
-                },
-                {
-                  url: 'authorize',
-                  valueUri: `${baseUrl.replace('/fhir', '')}/auth/authorize`
                 }
               ]
             }

@@ -71,7 +71,9 @@ authRouter.post('/token', express.urlencoded({ extended: true }), (req, res) => 
     expiresAt: new Date(Date.now() + expiresIn * 1000),
   });
 
-  // Return OAuth 2.0 compliant response
+  // Return OAuth 2.0 compliant response with cache prevention headers
+  res.setHeader('Cache-Control', 'no-store');
+  res.setHeader('Pragma', 'no-cache');
   res.json({
     access_token: accessToken,
     token_type: 'Bearer',
@@ -132,11 +134,14 @@ authRouter.post('/revoke', express.urlencoded({ extended: true }), (req, res) =>
 // Well-known OAuth configuration (for SMART on FHIR discovery)
 // GET /.well-known/smart-configuration
 authRouter.get('/.well-known/smart-configuration', (req, res) => {
-  const baseUrl = process.env.FHIR_BASE_URL || `${req.protocol}://${req.get('host')}`;
+  const forwardedProto = req.get('x-forwarded-proto');
+  const proto = forwardedProto ? forwardedProto.split(',')[0].trim() : req.protocol;
+  const host = req.get('host');
+  const baseUrl = process.env.FHIR_BASE_URL || `${proto}://${host}`;
 
   res.json({
     issuer: baseUrl,
-    authorization_endpoint: `${baseUrl}/auth/authorize`,
+    // We only support client_credentials for Projectathon right now; no interactive authorization endpoint.
     token_endpoint: `${baseUrl}/auth/token`,
     token_endpoint_auth_methods_supported: ['client_secret_basic', 'client_secret_post'],
     grant_types_supported: ['client_credentials'],
@@ -145,9 +150,8 @@ authRouter.get('/.well-known/smart-configuration', (req, res) => {
       'patient/Patient.read',
       'system/*.read',
     ],
-    response_types_supported: ['token'],
+    response_types_supported: [],
     capabilities: [
-      'launch-standalone',
       'client-confidential-symmetric',
       'permission-patient',
       'permission-v2',
