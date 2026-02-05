@@ -131,30 +131,4 @@ authRouter.post('/revoke', express.urlencoded({ extended: true }), (req, res) =>
   res.status(200).end();
 });
 
-// Well-known OAuth configuration (for SMART on FHIR discovery)
-// GET /.well-known/smart-configuration
-authRouter.get('/.well-known/smart-configuration', (req, res) => {
-  const forwardedProto = req.get('x-forwarded-proto');
-  const proto = forwardedProto ? forwardedProto.split(',')[0].trim() : req.protocol;
-  const host = req.get('host');
-  const baseUrl = process.env.FHIR_BASE_URL || `${proto}://${host}`;
-
-  res.json({
-    issuer: baseUrl,
-    // We only support client_credentials for Projectathon right now; no interactive authorization endpoint.
-    token_endpoint: `${baseUrl}/auth/token`,
-    token_endpoint_auth_methods_supported: ['client_secret_basic', 'client_secret_post'],
-    grant_types_supported: ['client_credentials'],
-    scopes_supported: [
-      'patient/*.read',
-      'patient/Patient.read',
-      'system/*.read',
-    ],
-    response_types_supported: [],
-    capabilities: [
-      'client-confidential-symmetric',
-      'permission-patient',
-      'permission-v2',
-    ],
-  });
-});
+// Note: /.well-known/smart-configuration is mounted at app root level in index.js

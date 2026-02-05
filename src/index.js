@@ -42,6 +42,32 @@ app.get('/health', (req, res) => {
   });
 });
 
+// SMART on FHIR well-known configuration (must be at root, not under /auth)
+app.get('/.well-known/smart-configuration', (req, res) => {
+  const forwardedProto = req.get('x-forwarded-proto');
+  const proto = forwardedProto ? forwardedProto.split(',')[0].trim() : req.protocol;
+  const host = req.get('host');
+  const baseUrl = `${proto}://${host}`;
+
+  res.json({
+    issuer: baseUrl,
+    token_endpoint: `${baseUrl}/auth/token`,
+    token_endpoint_auth_methods_supported: ['client_secret_basic', 'client_secret_post'],
+    grant_types_supported: ['client_credentials'],
+    scopes_supported: [
+      'patient/*.read',
+      'patient/Patient.read',
+      'system/*.read'
+    ],
+    response_types_supported: [],
+    capabilities: [
+      'client-confidential-symmetric',
+      'permission-patient',
+      'permission-v2'
+    ]
+  });
+});
+
 // OAuth 2.0 endpoints
 app.use('/auth', authRouter);
 
